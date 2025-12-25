@@ -1,0 +1,107 @@
+/* --- src/app/app.component.scss --- */
+
+/* Container for the switch - Fixed to Top Right */
+.switch-container {
+    position: fixed;
+    top: 15px;
+    /* Aligns with the HUD bar text */
+    right: 30px;
+    /* Aligns with the right padding */
+    z-index: 2000;
+    /* Ensures it stays on top of everything */
+
+    display: flex;
+    align-items: center;
+
+    /* Cyberpunk Styling */
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #00f3ff;
+    /* Neon Cyan Border */
+    border-radius: 4px;
+    /* Techy square corners */
+    padding: 5px 15px;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+    transition: all 0.3s ease;
+
+    /* Different look for Modern Mode */
+    &.modern {
+        border-color: #ff00ff;
+        /* Pink border when active */
+        box-shadow: 0 0 10px rgba(255, 0, 255, 0.2);
+
+        .label-text {
+            color: #fff;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+    }
+}
+
+.label-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: #00f3ff;
+    margin: 0 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+}
+
+/* --- The CSS Switch Toggle --- */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 12px;
+    /* Slimmer profile */
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The Track */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #111;
+    border: 1px solid #555;
+    transition: .4s;
+    border-radius: 2px;
+    /* Square track */
+}
+
+/* The Knob */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 8px;
+    width: 8px;
+    left: 2px;
+    bottom: 1px;
+    background-color: #00f3ff;
+    /* Neon Cyan Knob */
+    box-shadow: 0 0 5px #00f3ff;
+    transition: .4s;
+    border-radius: 0;
+    /* Square knob */
+}
+
+/* Active State (Modern) */
+input:checked+.slider {
+    background-color: #220022;
+    border-color: #ff00ff;
+}
+
+input:checked+.slider:before {
+    transform: translateX(26px);
+    background-color: #ff00ff;
+    /* Neon Pink Knob */
+    box-shadow: 0 0 8px #ff00ff;
+}

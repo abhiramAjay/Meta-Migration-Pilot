@@ -1,0 +1,75 @@
+<div class="cyberpunk-container">
+    <div class="hud-bar top-bar">
+        <div class="hud-item">SYS_ID: NCT-88</div>
+        <div class="hud-item title">NOCTIL // FUI_SYSTEM</div>
+        <div class="hud-item">STATUS: SECURE</div>
+    </div>
+
+    <div class="cyber-layout">
+        <div class="content-area">
+            <div class="card-grid">
+                <div *ngFor="let artist of artists" class="cyber-card">
+                    <div class="card-image" [style.background-image]="'url(' + artist.imageUrl + ')'"></div>
+                    <div class="card-content">
+                        <h2 class="glitch-text">{{ artist.name }}</h2>
+                        <div class="stat-row">
+                            <span class="label">GENRE</span>
+                            <span class="value">{{ artist.genre }}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="label">STREAMS</span>
+                            <span class="value">{{ artist.streams }}</span>
+                        </div>
+                        <div class="audio-bar">
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                            <div class="bar"></div>
+                        </div>
+                        <div class="actions">
+                            <button class="cyber-btn">INITIATE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="side-panel">
+            <div class="panel-box">
+                <h3>SYSTEM PERFORMANCE</h3>
+                <div class="gauge-container">
+
+                    <div class="circle-gauge">
+                        <div class="outer-ring"></div>
+                        <div class="inner-value">73%</div>
+                        <div class="label">CPU_LOAD</div>
+                    </div>
+
+                    <div class="circle-gauge pink">
+                        <div class="outer-ring"></div>
+                        <div class="inner-value">42%</div>
+                        <div class="label">MEM_ALLOC</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel-box log-box">
+                <h3>DATA_STREAM</h3>
+                <p class="log-entry">> Parsing Artist metadata...</p>
+                <p class="log-entry">> Freq analysis: 44.1kHz</p>
+                <p class="log-entry success">> Buffer complete.</p>
+                <p class="log-entry blink">> Awaiting command_</p>
+                <div class="tech-graphic">
+                    <div class="line"></div>
+                    <div class="dots"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

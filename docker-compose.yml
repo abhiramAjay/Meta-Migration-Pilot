@@ -1,0 +1,63 @@
+services:
+  # --- The "Legacy" Data Layer (PostgreSQL) ---
+  # Meets JD Requirement: Relational database and SQL experience
+  db:
+    image: postgres:15-alpine
+    container_name: migration-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: music_library_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - migration-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin -d music_library_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- The "Logic" Layer (Spring Boot) ---
+  # Meets JD Requirement: Java or SpringBoot experience for backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: migration-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/music_library_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: password123
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - migration-network
+
+  # --- The "UI" Layer (Angular) ---
+  # Meets JD Requirement: Angular experience for frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: migration-frontend
+    ports:
+      - "4200:80" # Maps local port 4200 to Nginx port 80 inside the container
+    depends_on:
+      - backend
+    networks:
+      - migration-network
+
+# --- Networking ---
+networks:
+  migration-network:
+    driver: bridge
+
+# --- Persistence ---
+volumes:
+  db-data:

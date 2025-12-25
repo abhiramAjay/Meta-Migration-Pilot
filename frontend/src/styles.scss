@@ -1,0 +1,416 @@
+/* --- GLOBAL RESET & THEME VARIABLES --- */
+:root {
+    --bg-deep: #0b0e14;
+    /* The dark navy background from the image */
+    --bg-panel: rgba(20, 30, 48, 0.6);
+    --hud-cyan: #00f0ff;
+    /* The bright cyan accent */
+    --hud-pink: #ff0055;
+    /* The red/pink accent */
+    --hud-blue: #0066ff;
+    /* The deep blue chart color */
+    --text-main: #e0f7ff;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    background-color: var(--bg-deep) !important;
+    font-family: 'Rajdhani', sans-serif;
+    color: var(--text-main);
+}
+
+/* --- BACKGROUND: Clean "Deep Space" with Tech Vignette --- */
+.cyberpunk-container {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    /* Subtle radial gradient to focus attention */
+    background: radial-gradient(circle at 50% 50%, #1a233a 0%, var(--bg-deep) 70%);
+
+    /* Floating "Particles" or "Stars" effect */
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+            radial-gradient(1px 1px at 10% 10%, rgba(0, 240, 255, 0.3), transparent),
+            radial-gradient(1px 1px at 20% 80%, rgba(255, 0, 85, 0.3), transparent),
+            radial-gradient(2px 2px at 50% 50%, rgba(255, 255, 255, 0.1), transparent),
+            radial-gradient(1px 1px at 80% 30%, rgba(0, 102, 255, 0.3), transparent);
+        background-size: 100% 100%;
+        animation: pulseBg 5s ease-in-out infinite alternate;
+    }
+}
+
+@keyframes pulseBg {
+    0% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* --- TOP BAR (Clean Tech Line) --- */
+.hud-bar {
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: rgba(11, 14, 20, 0.9);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.3);
+    backdrop-filter: blur(5px);
+
+    .hud-item {
+        font-family: 'Orbitron', sans-serif;
+        color: var(--hud-cyan);
+        letter-spacing: 2px;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        /* Small decorative square next to text */
+        &::before {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 6px;
+            background: var(--hud-pink);
+            box-shadow: 0 0 5px var(--hud-pink);
+        }
+    }
+
+    .title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        /* Gradient Text Effect from image */
+        background: linear-gradient(90deg, var(--hud-cyan), var(--hud-blue));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+        &::before {
+            display: none;
+        }
+
+        /* No pink dot for title */
+    }
+}
+
+/* --- LAYOUT --- */
+.cyber-layout {
+    /* Renamed for consistency with HTML class usage in previous steps, ensuring layout holds */
+    display: flex;
+    flex: 1;
+    height: 100%;
+    padding: 2rem;
+    gap: 3rem;
+    /* More breathing room */
+}
+
+.content-area {
+    flex: 3;
+    overflow-y: auto;
+}
+
+.side-panel {
+    flex: 1;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* --- HUD CARD STYLES --- */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+/* The New "Bracket" Card Style */
+.cyber-card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border: 1px solid rgba(0, 240, 255, 0.1);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+
+    /* The "Corner Brackets" (Reference Image Style) */
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--hud-cyan);
+        transition: all 0.3s ease;
+    }
+
+    &::before {
+        top: -1px;
+        left: -1px;
+        border-right: none;
+        border-bottom: none;
+    }
+
+    &::after {
+        bottom: -1px;
+        right: -1px;
+        border-left: none;
+        border-top: none;
+    }
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 30px rgba(0, 102, 255, 0.1);
+
+        &::before,
+        &::after {
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
+        }
+    }
+}
+
+/* Image with Tech Overlay */
+.card-image {
+    height: 160px;
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--hud-pink);
+    position: relative;
+
+    /* Scanning Line Animation */
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--hud-cyan);
+        box-shadow: 0 0 10px var(--hud-cyan);
+        animation: scanImage 3s linear infinite;
+        opacity: 0.7;
+    }
+}
+
+@keyframes scanImage {
+    0% {
+        top: 0;
+    }
+
+    100% {
+        top: 100%;
+    }
+}
+
+.card-content h2 {
+    font-family: 'Orbitron';
+    margin: 0.5rem 0;
+    color: white;
+    letter-spacing: 1px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #8b9bb4;
+
+    .label {
+        color: var(--hud-cyan);
+    }
+
+    .value {
+        color: white;
+        font-weight: bold;
+    }
+}
+
+/* Audio Visualizer Bar (Fake) */
+.audio-bar {
+    display: flex;
+    gap: 2px;
+    height: 10px;
+    margin-top: 5px;
+    align-items: flex-end;
+
+    .bar {
+        width: 4px;
+        background: var(--hud-blue);
+        animation: bounce 1s infinite ease-in-out;
+    }
+
+    .bar:nth-child(odd) {
+        background: var(--hud-pink);
+        animation-duration: 0.8s;
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        height: 20%;
+    }
+
+    50% {
+        height: 100%;
+    }
+}
+
+.cyber-btn {
+    width: 100%;
+    padding: 0.8rem;
+    margin-top: 1rem;
+    background: transparent;
+    border: 1px solid var(--hud-blue);
+    color: var(--hud-blue);
+    font-family: 'Orbitron';
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+        background: var(--hud-blue);
+        color: #000;
+        box-shadow: 0 0 15px var(--hud-blue);
+    }
+}
+
+/* --- SIDEBAR STYLING --- */
+.panel-box {
+    background: rgba(11, 14, 20, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    position: relative;
+
+    h3 {
+        color: var(--hud-cyan);
+        font-family: 'Orbitron';
+        font-size: 1rem;
+        border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+        padding-bottom: 10px;
+        margin-top: 0;
+    }
+}
+
+/* --- CIRCULAR GAUGES --- */
+.gauge-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.circle-gauge {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .outer-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0.05);
+        border-top: 3px solid var(--hud-cyan);
+        /* The "Progress" part */
+        border-right: 3px solid var(--hud-cyan);
+        animation: spin 2s linear infinite;
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    }
+
+    .inner-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+        z-index: 2;
+    }
+
+    .label {
+        position: absolute;
+        bottom: -25px;
+        font-size: 0.8rem;
+        color: #888;
+    }
+}
+
+/* Variant for the Pink Gauge */
+.circle-gauge.pink .outer-ring {
+    border-top-color: var(--hud-pink);
+    border-right-color: var(--hud-pink);
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
+    animation-duration: 3s;
+    animation-direction: reverse;
+    /* Spins other way */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* --- LOGS --- */
+.log-box {
+    height: 300px;
+    overflow: hidden;
+}
+
+.log-entry {
+    font-family: 'Courier New';
+    font-size: 0.85rem;
+    color: #667;
+    margin: 5px 0;
+}
+
+.success {
+    color: var(--hud-cyan);
+}
+
+.blink {
+    animation: blink 1s infinite;
+    color: var(--hud-pink);
+}
+
+/* Decorative Graphic at bottom of logs */
+.tech-graphic {
+    margin-top: 20px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--hud-blue), transparent);
+    position: relative;
+
+    .dots {
+        position: absolute;
+        top: -4px;
+        width: 100%;
+        height: 10px;
+        background-image: radial-gradient(circle, var(--hud-cyan) 1px, transparent 1px);
+        background-size: 10px 10px;
+    }
+}

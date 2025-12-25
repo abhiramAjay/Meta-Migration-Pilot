@@ -1,0 +1,22 @@
+<div class="main-layout">
+
+    <div class="switch-container" [class.modern]="!isLegacyMode">
+        <span class="label-text left">LEGACY</span>
+
+        <label class="switch">
+            <input type="checkbox" (change)="toggleMode()" [checked]="!isLegacyMode">
+            <span class="slider"></span>
+        </label>
+
+        <span class="label-text right">MODERN</span>
+    </div>
+
+    <ng-container *ngIf="isLegacyMode">
+        <app-terminal-view></app-terminal-view>
+    </ng-container>
+
+    <ng-container *ngIf="!isLegacyMode">
+        <app-dashboard-view></app-dashboard-view>
+    </ng-container>
+
+</div>

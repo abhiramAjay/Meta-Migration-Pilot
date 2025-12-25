@@ -1,0 +1,13 @@
+<div class="crt-monitor" (click)="focusInput()">
+    <div class="screen-content" #scrollContainer>
+        <div *ngFor="let line of outputLines" class="line">
+            {{ line }}
+        </div>
+
+        <div class="input-line">
+            <span class="prompt">C:\USERS\ADMIN&gt;</span>
+            <input #inputField type="text" (keydown.enter)="handleInput($event)" autofocus spellcheck="false"
+                autocomplete="off">
+        </div>
+    </div>
+</div>
