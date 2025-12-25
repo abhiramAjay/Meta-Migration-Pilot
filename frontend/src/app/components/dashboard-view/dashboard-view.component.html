@@ -1,14 +1,40 @@
 <div class="cyberpunk-container">
     <div class="hud-bar top-bar">
-        <div class="hud-item">SYS_ID: NCT-88</div>
-        <div class="hud-item title">NOCTIL // FUI_SYSTEM</div>
+        <div class="hud-item">SYS_ID: MAX-88</div>
+        <div class="hud-item title">MAX MUSIC // FUI_SYSTEM</div>
         <div class="hud-item">STATUS: SECURE</div>
     </div>
 
     <div class="cyber-layout">
         <div class="content-area">
+
+            <div class="search-controls">
+                <div class="input-group">
+                    <span class="icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="SEARCH_DATABASE..." (input)="onSearch($event)">
+                </div>
+
+                <div class="input-group">
+                    <span class="icon">⚡</span>
+                    <select (change)="onGenreFilter($event)">
+                        <option value="">ALL_GENRES</option>
+                        <option value="Rock">ROCK</option>
+                        <option value="Pop">POP</option>
+                        <option value="Hip Hop">HIP HOP</option>
+                        <option value="Electronic">ELECTRONIC</option>
+                        <option value="Metal">METAL</option>
+                        <option value="Cyber">CYBER</option>
+                    </select>
+                </div>
+
+                <div class="record-count">
+                    {{ filteredArtists.length }} UNITS FOUND
+                </div>
+            </div>
+
             <div class="card-grid">
-                <div *ngFor="let artist of artists" class="cyber-card">
+                <div *ngFor="let artist of filteredArtists" class="cyber-card" (click)="openDetails(artist)"
+                    (mouseenter)="playPreview(artist)" (mouseleave)="stopPreview()">
                     <div class="card-image" [style.background-image]="'url(' + artist.imageUrl + ')'"></div>
                     <div class="card-content">
                         <h2 class="glitch-text">{{ artist.name }}</h2>
@@ -32,7 +58,8 @@
                             <div class="bar"></div>
                         </div>
                         <div class="actions">
-                            <button class="cyber-btn">INITIATE</button>
+                            <button class="cyber-btn" (click)="openDetails(artist); $event.stopPropagation()">INITIATE
+                                SCAN</button>
                         </div>
                     </div>
                 </div>
@@ -68,6 +95,65 @@
                 <div class="tech-graphic">
                     <div class="line"></div>
                     <div class="dots"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" *ngIf="selectedArtist" (click)="closeDetails()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <button class="close-btn" *ngIf="!isEditing" (click)="closeDetails()">X</button>
+
+        <div class="modal-grid">
+            <div class="modal-image-col">
+                <img [src]="selectedArtist.imageUrl" alt="Subject Scan">
+                <div class="scan-line"></div>
+            </div>
+
+            <div class="modal-data-col">
+
+                <h2 *ngIf="!isEditing">{{ selectedArtist.name }}</h2>
+                <input *ngIf="isEditing" [(ngModel)]="selectedArtist.name" class="cyber-input header-input">
+
+                <div class="data-row">
+                    <span class="label">CLASSIFICATION::</span>
+                    <span *ngIf="!isEditing" class="val">{{ selectedArtist.genre | uppercase }}</span>
+                    <input *ngIf="isEditing" [(ngModel)]="selectedArtist.genre" class="cyber-input">
+                </div>
+
+                <div class="data-row">
+                    <span class="label">TOTAL_STREAMS::</span>
+                    <span *ngIf="!isEditing" class="val">{{ selectedArtist.streams }}</span>
+                    <input *ngIf="isEditing" [(ngModel)]="selectedArtist.streams" class="cyber-input">
+                </div>
+
+                <div class="data-row">
+                    <span class="label">DATABASE_ID::</span>
+                    <span class="val">DB-00{{ selectedArtist.id }}</span>
+                </div>
+
+                <hr class="neon-line">
+
+                <div class="admin-actions">
+                    <div *ngIf="!isEditing" class="button-group">
+                        <button class="cyber-btn edit-btn" (click)="enableEdit()">MODIFY DATA</button>
+                        <button class="cyber-btn delete-btn" (click)="deleteRecord()">PURGE RECORD</button>
+                    </div>
+
+                    <div *ngIf="isEditing" class="button-group">
+                        <button class="cyber-btn save-btn" (click)="saveEdit()">CONFIRM OVERWRITE</button>
+                        <button class="cyber-btn cancel-btn" (click)="isEditing = false">CANCEL</button>
+                    </div>
+                </div>
+
+                <div *ngIf="!isEditing">
+                    <h3>MIGRATION ANALYSIS</h3>
+                    <p class="analysis-text">
+                        > Scanning metadata integrity... 100%<br>
+                        > Admin Access: GRANTED.<br>
+                        > Ready for command.
+                    </p>
                 </div>
             </div>
         </div>

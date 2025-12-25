@@ -1,0 +1,20 @@
+# Java / Spring Boot
+target/
+*.class
+.mvn/
+mvnw
+mvnw.cmd
+.idea/
+*.iml
+*.log
+
+# Angular / Node
+node_modules/
+dist/
+.angular/
+.vscode/
+package-lock.json
+
+# System
+.DS_Store
+Thumbs.db
