@@ -15,11 +15,10 @@ export interface Artist {
     providedIn: 'root'
 })
 export class ArtistService {
-    // If we are running on localhost, use 8080. 
-    // If not, use the Production URL (you will update this with your Render URL later).
-    private apiUrl = window.location.hostname === 'localhost'
+    // The URL of your Spring Boot API (running on port 8080)
+    private apiUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
         ? 'http://localhost:8080/api/artists'
-        : 'https://FILL_IN_YOUR_RENDER_URL_HERE.onrender.com/api/artists';
+        : 'https://meta-migration-pilot.onrender.com/api/artists'; // Real Render Backend URL
 
     constructor(private http: HttpClient) { }
 
